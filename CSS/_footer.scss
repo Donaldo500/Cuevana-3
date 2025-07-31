@@ -1,0 +1,54 @@
+footer{
+    @include flexbox;
+    color: rgb(255, 254, 254);
+    padding: 20px;
+
+    img{
+        width: 150px;
+        height: 50px;
+    }
+
+    div{
+        @include flexbox;
+        gap: 20px;
+        align-items: center;
+
+        p{
+            margin: 0;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        } 
+    }
+
+    .social{
+        @include flexbox;
+        gap: 30px;
+        display: flex;
+        align-items: center;
+
+        img{
+            background-color: rgb(125, 85, 184);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 30px;
+        }
+    }
+
+    @include phones{
+        padding: 10px;
+
+        div{
+            gap: 10px;
+        }
+
+        .social{
+            gap: 10px;
+
+            img{
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+#movies-grid{
+    width: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    padding: 20px;
+    gap: 30px;
+
+    .movies-grid{
+        height: 280px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        border-radius: 10px;
+        position: relative;
+        cursor: pointer;
+        overflow-y: auto;
+        min-height: 0;
+        scrollbar-width: none;
+        scrollbar-color: transparent transparent;
+
+        @include laptops{
+            &:hover{
+                scale: 1.1;
+                filter: brightness(60%);
+
+                .movie-info{
+                    h2{
+                        opacity: 0;
+                    }
+
+                    #description{
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        
+
+        .movie-info{
+
+            h2{
+                margin: 0;
+                text-align: center;
+            }
+
+            #description{
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                padding-bottom: 10px;
+                margin: 0;
+                opacity: 0;                
+            }
+        }
+    }
+}
