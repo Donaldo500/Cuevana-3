@@ -55,10 +55,19 @@ const createMovieCard = (movie) => {
 
 const loadMovies = async () => {
   const moviesGrid = document.getElementById("movies-grid");
+
+  // La clave se define en js/config.js (no versionado), a partir de js/config.example.js
+  const apiKey = window.ENV && window.ENV.TMDB_API_KEY;
+  if (!apiKey) {
+    moviesGrid.innerHTML = '<p>Falta la clave de TMDB. Copia js/config.example.js como js/config.js y agrega tu TMDB_API_KEY.</p>';
+    console.error("TMDB_API_KEY no esta definida en js/config.js");
+    return;
+  }
+
   try {
     const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
       params: {
-        api_key: '14a3c33e542ec3ca4ef95bc067d94f9b',
+        api_key: apiKey,
         language: 'es-MX',
         sort_by: 'popularity.desc',
         page: 1

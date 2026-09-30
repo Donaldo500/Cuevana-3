@@ -37,7 +37,10 @@ Réplica de la interfaz de un catálogo de películas inspirado en *Cuevana 3*. 
 ```text
 Cuevana-3/
 ├── index.html
-├── js/functions.js        # Petición a TMDB y creación de tarjetas
+├── js/
+│   ├── functions.js       # Petición a TMDB y creación de tarjetas
+│   ├── config.example.js  # Plantilla de configuración (versionada)
+│   └── config.js          # Tu clave de TMDB (no versionada, en .gitignore)
 ├── CSS/
 │   ├── main.scss          # Importa todos los parciales
 │   ├── _base.scss         # Reset y mixins de breakpoints (70rem y 48rem)
@@ -56,7 +59,10 @@ No requiere dependencias ni proceso de build.
 ```bash
 git clone https://github.com/Donaldo500/Cuevana-3.git
 cd Cuevana-3
+cp js/config.example.js js/config.js
 ```
+
+Después abre `js/config.js` y coloca tu clave de TMDB (ver [Clave de la API](#clave-de-la-api)).
 
 Abre `index.html` en el navegador o, preferentemente, sírvelo con un servidor local, por ejemplo la extensión *Live Server* de VS Code o:
 
@@ -72,7 +78,22 @@ npx sass CSS/main.scss CSS/main.css --watch
 
 ### Clave de la API
 
-La petición usa una clave de TMDB definida en `js/functions.js`. Si quieres usar la tuya, crea una cuenta gratuita en [themoviedb.org](https://www.themoviedb.org/settings/api) y reemplaza el valor de `api_key`.
+La clave de TMDB **no está incluida en el repositorio**. Se define como variable de configuración en `js/config.js`, archivo que está en `.gitignore` para que nunca se suba a GitHub:
+
+```js
+// js/config.js
+window.ENV = {
+  TMDB_API_KEY: "tu_clave_de_tmdb"
+};
+```
+
+1. Crea una cuenta gratuita en [themoviedb.org](https://www.themoviedb.org/signup).
+2. Solicita tu clave en [Configuración > API](https://www.themoviedb.org/settings/api).
+3. Pégala en `js/config.js`.
+
+Si la clave no está definida, la página muestra un aviso en lugar del catálogo.
+
+> Al tratarse de un sitio estático que se ejecuta en el navegador, la clave es visible en las herramientas de desarrollo mientras la página está en uso. Mantenerla fuera del repositorio evita publicarla en el código fuente; para ocultarla por completo haría falta un backend intermedio.
 
 ## Ejemplos de uso
 
@@ -80,7 +101,7 @@ Así se obtiene y pinta cada película:
 
 ```js
 const response = await axios.get("https://api.themoviedb.org/3/discover/movie", {
-  params: { api_key: "TU_API_KEY", language: "es-MX", sort_by: "popularity.desc", page: 1 }
+  params: { api_key: window.ENV.TMDB_API_KEY, language: "es-MX", sort_by: "popularity.desc", page: 1 }
 });
 
 for (const movie of response.data.results) {
